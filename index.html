@@ -1,0 +1,58 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+    <img id="image" src="inci.jpg" />
+
+    <script>
+        let c = document.createElement("canvas");
+        ctx = c.getContext('2d');
+        let img1 = new Image();
+
+        img1.onload = function () {
+            document.getElementById("image").remove();
+
+            w = img1.width;
+            h = img1.height;
+
+            c.width = w;
+            c.height = h;
+            ctx.drawImage(img1, 0, 0);
+
+            var pixelArr = ctx.getImageData(0, 0, w, h).data;
+            sample_size = 30;
+
+            for (let y = 0; y < h; y += sample_size) {
+                for (let x = 0; x < w; x += sample_size) {
+                    let p = (x + (y * w)) * 4;
+                    var radius = 2;
+                    ctx.fillStyle = "rgba(" + pixelArr[p] + "," + pixelArr[p + 1] + "," + pixelArr[p + 2] + "," + pixelArr[p + 3] + ")";
+                    ctx.beginPath();
+                    ctx.arc(x, y, sample_size, 0, 2 * Math.PI, false);
+
+                    ctx.fill();
+
+                }
+            }
+
+            let img2 = new Image();
+            img2.src = c.toDataURL("image/jpeg");
+            img2.width = 500;
+            img2.objectFit = "contain";
+            document.body.appendChild(img2);
+        };
+
+        img1.src = document.getElementById("image").src;
+
+    </script>
+</body>
+
+</html>
