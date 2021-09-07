@@ -9,5 +9,7 @@ body {
 }
 #image {
   width: 500px;
+
   height: auto;
+  object-fit: fill;
 }
